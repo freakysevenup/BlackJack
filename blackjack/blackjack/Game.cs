@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PlayingCards;
 
 namespace blackjack
 {
-    class Program
+    class Game
     {
-        static void Main(string[] args)
+        Deck m_deck;
+        Agent[] agents;
+
+
+        public Game()
         {
-            Game game = new Game();
-            game.run();
+
+        }
+
+        public void run()
+        {
+
         }
     }
 }
