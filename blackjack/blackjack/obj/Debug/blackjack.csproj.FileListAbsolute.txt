@@ -1,0 +1,8 @@
+C:\Users\15360\_vsprojects\blackjack\blackjack\bin\Debug\blackjack.exe.config
+C:\Users\15360\_vsprojects\blackjack\blackjack\obj\Debug\blackjack.csprojResolveAssemblyReference.cache
+C:\Users\15360\_vsprojects\blackjack\blackjack\bin\Debug\blackjack.exe
+C:\Users\15360\_vsprojects\blackjack\blackjack\bin\Debug\blackjack.pdb
+C:\Users\15360\_vsprojects\blackjack\blackjack\obj\Debug\blackjack.exe
+C:\Users\15360\_vsprojects\blackjack\blackjack\obj\Debug\blackjack.pdb
+C:\Users\15360\_vsprojects\blackjack\blackjack\bin\Debug\PlayingCards.dll
+C:\Users\15360\_vsprojects\blackjack\blackjack\bin\Debug\PlayingCards.pdb
