@@ -12,31 +12,19 @@ namespace blackjack
         public Dealer()
         {
             m_hand = new Hand();
-            m_stand = false;
-            m_doubleDown = false;
-            m_split = false;
+            m_standHand = false;
             m_hitCounter = 0;
+            m_bustedHand = false;
         }
 
-        public override void hit(Card card)
+        public override void hit(Card card, Hand hand)
         {
             m_hand.addCard(card);
         }
 
-        public override void stand()
+        public override void standHand()
         {
-            m_stand = true;
-        }
-
-        public override void split()
-        {
-            m_split = true;
-            m_splitHand = new Hand();
-        }
-
-        public override void doubleDown()
-        {
-            m_doubleDown = true;
+            m_standHand = true;
         }
 
         public override Hand getHand()
@@ -44,29 +32,19 @@ namespace blackjack
             return m_hand;
         }
 
-        public override Hand getSplitHand()
+        public override bool didStandHand()
         {
-            return m_splitHand;
-        }
-
-        public override bool didStand()
-        {
-            return m_stand;
-        }
-
-        public override bool didDoubleDown()
-        {
-            return m_doubleDown;
-        }
-
-        public override bool didSplit()
-        {
-            return m_split;
+            return m_standHand;
         }
 
         public override int getHitCounter()
         {
             return m_hitCounter;
+        }
+
+        public override bool isHandBusted()
+        {
+            return m_bustedHand;
         }
     }
 }

@@ -13,20 +13,24 @@ namespace blackjack
         {
             m_bank = new Bank();
             m_hand = new Hand();
-            m_stand = false;
-            m_doubleDown = false;
+            m_currentHand = 0;
+            m_standHand = false;
+            m_doubleDownHand = false;
+            m_doubleDownSplitHand = false;
             m_split = false;
             m_hitCounter = 0;
+            m_bustedHand = false;
+            m_splitHandBusted = false;
         }
 
-        public override void hit(Card card)
+        public override void hit(Card card, Hand hand)
         {
-            m_hand.addCard(card);
+            hand.addCard(card);
         }
 
-        public override void stand()
+        public override void standHand()
         {
-            m_stand = true;
+            m_standHand = true;
         }
 
         public override void split()
@@ -35,9 +39,14 @@ namespace blackjack
             m_splitHand = new Hand();
         }
 
-        public override void doubleDown()
+        public override void doubleDownHand()
         {
-            m_doubleDown = true;
+            m_doubleDownHand = true;
+        }
+
+        public override void doubleDownSplitHand()
+        {
+            m_doubleDownSplitHand = true;
         }
 
         public override Hand getHand()
@@ -50,19 +59,39 @@ namespace blackjack
             return m_splitHand;
         }
 
+        public override int getCurrentHand()
+        {
+            return m_currentHand;
+        }
+
+        public override void setCurrentHand(int hand)
+        {
+            m_currentHand = hand;
+        }
+
         public override Bank getBank()
         {
             return m_bank;
         }
 
-        public override bool didStand()
+        public override void standSplitHand()
         {
-            return m_stand;
+            m_standSplitHand = true;
         }
 
-        public override bool didDoubleDown()
+        public override bool didStandHand()
         {
-            return m_doubleDown;
+            return m_standHand;
+        }
+
+        public override bool didDoubleDownHand()
+        {
+            return m_doubleDownHand;
+        }
+
+        public override bool didDoubleDownSplitHand()
+        {
+            return m_doubleDownSplitHand;
         }
 
         public override bool didSplit()
@@ -73,6 +102,21 @@ namespace blackjack
         public override int getHitCounter()
         {
             return m_hitCounter;
+        }
+
+        public override bool isHandBusted()
+        {
+            return m_bustedHand;
+        }
+
+        public override bool isSplitHandBusted()
+        {
+            return m_splitHandBusted;
+        }
+
+        public override bool didStandSplitHand()
+        {
+            return m_standSplitHand;
         }
     }
 }
