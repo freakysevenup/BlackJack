@@ -50,11 +50,12 @@ namespace blackjack
                 {
                     cards[i] = m_cards[i];
                 }
-                cards[m_cards.Length + 1] = card;
+                cards[m_cards.Length] = card;
                 m_cards = new Card[cards.Length];
                 for (int i = 0; i < cards.Length; i++)
                 {
                     m_cards[i] = cards[i];
+                    m_cardValues[i] = determineCardValue(card);
                 }
             }
             // Otherwise find the first element that is null and put the card in it
@@ -65,6 +66,7 @@ namespace blackjack
                     if (m_cards[i] == null)
                     {
                         m_cards[i] = card;
+                        m_cardValues[i] = determineCardValue(card);
                         break;
                     }
                 }

@@ -26,8 +26,10 @@ namespace blackjack
             {
                 if (player.getHand().getCards().Length == 2)
                 {
-                    if (player.getHand().getCards()[0].getCardValue() == player.getHand().getCards()[1].getCardValue())
+                    if (player.getHand().getCardValues()[0] == player.getHand().getCardValues()[1])
                     {
+                        Console.WriteLine("card 1 : " + player.getHand().getCardValues()[0]);
+                        Console.WriteLine("card 2 : " + player.getHand().getCardValues()[1]);
                         returnValue = true;
                     }
                 }
@@ -59,6 +61,13 @@ namespace blackjack
                     {
                         returnValue = true;
                     }
+                }
+            }
+            else if (!player.didSplit())
+            {
+                if (!player.didDoubleDownHand())
+                {
+                    returnValue = true;
                 }
             }
 
