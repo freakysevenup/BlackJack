@@ -10,7 +10,7 @@ namespace blackjack
     class Game
     {
         Deck m_deck;
-        Agent[] agents;
+        Agent[] m_agents;
 
 
         public Game()
@@ -20,7 +20,21 @@ namespace blackjack
 
         public void run()
         {
+            initialize();
+        }
+
+        private void initialize()
+        {
+            // set up game here
+
+            m_deck = new Deck();
+
+            m_agents = new Agent[2];
+
+            m_agents[0] = new Dealer();
+            m_agents[1] = new Human();
 
         }
+
     }
 }
