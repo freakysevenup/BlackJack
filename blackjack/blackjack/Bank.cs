@@ -27,6 +27,8 @@ namespace blackjack
             m_wager = wager;
         }
 
+        public int getWager() { return m_wager; }
+
         public void betMin()
         {
             m_wager = MIN;

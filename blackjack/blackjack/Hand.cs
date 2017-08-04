@@ -42,20 +42,25 @@ namespace blackjack
         public void addCard(Card card)
         {
             Card[] cards;
+            int[] cardValues;
             // if the last element is not null resize the array
             if (m_cards[m_cards.Length - 1] != null)
             {
                 cards = new Card[m_cards.Length + 1];
+                cardValues = new int[m_cardValues.Length + 1];
                 for (int i = 0; i < m_cards.Length; i++)
                 {
                     cards[i] = m_cards[i];
+                    cardValues[i] = m_cardValues[i];
                 }
                 cards[m_cards.Length] = card;
+                cardValues[m_cardValues.Length] = determineCardValue(card);
                 m_cards = new Card[cards.Length];
+                m_cardValues = new int[cardValues.Length];
                 for (int i = 0; i < cards.Length; i++)
                 {
                     m_cards[i] = cards[i];
-                    m_cardValues[i] = determineCardValue(card);
+                    m_cardValues[i] = cardValues[i];
                 }
             }
             // Otherwise find the first element that is null and put the card in it

@@ -119,26 +119,27 @@ namespace blackjack
             return returnValue;
         }
 
-        public bool checkBust(Player player)
+        public bool checkBustHand(Player player)
         {
             bool returnValue = false;
 
-            int currentHand = player.getCurrentHand();
+            if (player.getHand().getHandValue() > 21)
+            {
+                returnValue = true;
+            }
 
-            if (currentHand == 0)
+            return returnValue;
+        }
+
+        public bool checkBustSplitHand(Player player)
+        {
+            bool returnValue = false;
+
+            if (player.getSplitHand().getHandValue() > 21)
             {
-                if (player.getHand().getHandValue() > 21)
-                {
-                    returnValue = true;
-                }
+                returnValue = true;
             }
-            else if (currentHand == 1)
-            {
-                if (player.getSplitHand().getHandValue() > 21)
-                {
-                    returnValue = true;
-                }
-            }
+
             return returnValue;
         }
 
