@@ -25,6 +25,7 @@ namespace blackjack
 
         public int getHandValue() 
         {
+            m_handValue = 0;
             for (int i = 0; i < m_cards.Length; i++)
             {
                 if (m_cards[i] == null)
@@ -36,6 +37,7 @@ namespace blackjack
                     m_handValue += determineCardValue(m_cards[i]);
                 }
             }
+
             return m_handValue; 
         }
 
@@ -53,10 +55,13 @@ namespace blackjack
                     cards[i] = m_cards[i];
                     cardValues[i] = m_cardValues[i];
                 }
+
                 cards[m_cards.Length] = card;
                 cardValues[m_cardValues.Length] = determineCardValue(card);
+
                 m_cards = new Card[cards.Length];
                 m_cardValues = new int[cardValues.Length];
+
                 for (int i = 0; i < cards.Length; i++)
                 {
                     m_cards[i] = cards[i];
@@ -85,6 +90,7 @@ namespace blackjack
             {
                 returnSplitCard = m_cards[1];
                 m_cards[1] = null;
+                m_cardValues[1] = 0;
             }
 
             return returnSplitCard;
@@ -145,6 +151,5 @@ namespace blackjack
 
             return returnValue;
         }
-
     }
 }

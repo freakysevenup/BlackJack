@@ -46,5 +46,18 @@ namespace blackjack
         {
             return m_bustedHand;
         }
+
+        public override void bustHand()
+        {
+            m_bustedHand = true;
+        }
+
+        public override void endRound()
+        {
+            m_hand = new Hand();
+            m_standHand = false;
+            m_hitCounter = 0;
+            m_bustedHand = false;
+        }
     }
 }

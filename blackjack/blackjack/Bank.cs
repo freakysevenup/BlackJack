@@ -32,16 +32,24 @@ namespace blackjack
         public void betMin()
         {
             m_wager = MIN;
+            m_cashFlow -= MIN;
         }
 
         public void betMax()
         {
             m_wager = MAX;
+            m_cashFlow -= MAX;
         }
 
-        public void deductWager()
+        public void returnWager(int wager)
+        {
+            m_cashFlow += wager;
+        }
+
+        public void doubleWager()
         {
             m_cashFlow -= m_wager;
+            m_wager += m_wager;
         }
 
         public void collectWinnings(int winnings)

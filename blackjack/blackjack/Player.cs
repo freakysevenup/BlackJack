@@ -21,7 +21,7 @@ namespace blackjack
         public Player() { }
 
         public abstract Bank getBank();
-        public abstract void split();
+        public abstract void split(Card handCard, Card splitHandCard);
         public abstract void doubleDownHand();
         public abstract void doubleDownSplitHand();
         public abstract bool didSplit();
@@ -33,6 +33,7 @@ namespace blackjack
         public abstract bool isSplitHandBusted();
         public abstract void standSplitHand();
         public abstract bool didStandSplitHand();
+        public abstract void bustSplitHand();
 
         public override void hit(Card card, Hand hand)
         {
@@ -62,6 +63,16 @@ namespace blackjack
         public override bool isHandBusted()
         {
             return m_bustedHand;
+        }
+
+        public override void bustHand()
+        {
+            m_bustedHand = true;
+        }
+
+        public override void endRound()
+        {
+
         }
 
 

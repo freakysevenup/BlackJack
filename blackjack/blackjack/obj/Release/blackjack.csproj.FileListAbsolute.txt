@@ -1,0 +1,7 @@
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\bin\Release\blackjack.exe.config
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\bin\Release\blackjack.exe
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\bin\Release\blackjack.pdb
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\bin\Release\PlayingCards.dll
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\bin\Release\PlayingCards.pdb
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.exe
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.pdb

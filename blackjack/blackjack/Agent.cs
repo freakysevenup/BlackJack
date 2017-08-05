@@ -23,6 +23,8 @@ namespace blackjack
         public abstract bool didStandHand();
         public abstract int getHitCounter();
         public abstract bool isHandBusted();
+        public abstract void bustHand();
+        public abstract void endRound();
 
     }
 }

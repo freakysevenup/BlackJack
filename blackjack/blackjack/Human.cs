@@ -31,12 +31,17 @@ namespace blackjack
         public override void standHand()
         {
             m_standHand = true;
+            m_currentHand = 1;
         }
 
-        public override void split()
+        public override void split(Card handCard, Card splitHandCard)
         {
             m_split = true;
             m_splitHand = new Hand();
+
+            m_splitHand.addCard(m_hand.removeSplitCard(m_hand.getCards()[1]));
+            m_splitHand.addCard(splitHandCard);
+            m_hand.addCard(handCard);
         }
 
         public override void doubleDownHand()
@@ -117,6 +122,30 @@ namespace blackjack
         public override bool didStandSplitHand()
         {
             return m_standSplitHand;
+        }
+
+        public override void bustHand()
+        {
+            m_bustedHand = true;
+        }
+
+        public override void bustSplitHand()
+        {
+            m_splitHandBusted = true;
+        }
+
+        public override void endRound()
+        {
+            m_hand = new Hand();
+            m_splitHand = new Hand();
+            m_currentHand = 0;
+            m_standHand = false;
+            m_doubleDownHand = false;
+            m_doubleDownSplitHand = false;
+            m_split = false;
+            m_hitCounter = 0;
+            m_bustedHand = false;
+            m_splitHandBusted = false;
         }
     }
 }

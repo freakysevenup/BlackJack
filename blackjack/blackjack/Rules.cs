@@ -52,14 +52,20 @@ namespace blackjack
                 {
                     if (!player.didDoubleDownHand())
                     {
-                        returnValue = true;
+                        if (player.getHand().getCards().Length == 2)
+                        {
+                            returnValue = true;
+                        }
                     }
                 }
                 else if (currentHand == 1)
                 {
                     if (!player.didDoubleDownSplitHand())
                     {
-                        returnValue = true;
+                        if (player.getSplitHand().getCards().Length == 2)
+                        {
+                            returnValue = true;
+                        }
                     }
                 }
             }
@@ -67,7 +73,10 @@ namespace blackjack
             {
                 if (!player.didDoubleDownHand())
                 {
-                    returnValue = true;
+                    if (player.getHand().getCards().Length == 2)
+                    {
+                        returnValue = true;
+                    }
                 }
             }
 
@@ -82,11 +91,10 @@ namespace blackjack
         public bool checkHit(Player player)
         {
             bool returnValue = false;
+            int currentHand = player.getCurrentHand();
 
             if (!player.didStandHand())
             {
-                int currentHand = player.getCurrentHand();
-
                 if (currentHand == 0)
                 {
                     if (!player.didDoubleDownHand())
@@ -96,11 +104,10 @@ namespace blackjack
                             returnValue = true;
                         }
                     }
-                    else if (player.didDoubleDownHand() && player.getHitCounter() < 1)
-                    {
-                        returnValue = true;
-                    }
                 }
+            }
+            if (!player.didStandSplitHand())
+            {
                 if (currentHand == 1)
                 {
                     if (!player.didDoubleDownSplitHand())
@@ -110,12 +117,32 @@ namespace blackjack
                             returnValue = true;
                         }
                     }
-                    else if (player.didDoubleDownSplitHand() && player.getHitCounter() < 1)
-                    {
-                        returnValue = true;
-                    }
                 }
             }
+            
+            return returnValue;
+        }
+
+        public bool checkStand(Player player)
+        {
+            bool returnValue = false;
+            int currentHand = player.getCurrentHand();
+
+            if (currentHand == 0)
+            {
+                if (!player.isHandBusted() || !player.didDoubleDownHand())
+                {
+                    returnValue = true;
+                }
+            }
+            else if (currentHand == 1)
+            {
+                if (!player.isSplitHandBusted() || !player.didDoubleDownSplitHand())
+                {
+                    returnValue = true;
+                }
+            }
+
             return returnValue;
         }
 
@@ -136,6 +163,18 @@ namespace blackjack
             bool returnValue = false;
 
             if (player.getSplitHand().getHandValue() > 21)
+            {
+                returnValue = true;
+            }
+
+            return returnValue;
+        }
+
+        public bool checkBustHand(Agent agent)
+        {
+            bool returnValue = false;
+
+            if (agent.getHand().getHandValue() > 21)
             {
                 returnValue = true;
             }
