@@ -5,3 +5,4 @@ J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\bla
 J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\bin\Release\PlayingCards.pdb
 J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.exe
 J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.pdb
+J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.csprojResolveAssemblyReference.cache

@@ -205,7 +205,7 @@ namespace blackjack
                 {
                     if (m_handInPlay == 0)
                     {
-                        if (m_rules.checkBustHand(m_players[0]) || m_players[0].didStandHand())
+                        if (m_rules.checkBustHand(m_players[0]) || m_players[0].didStandHand() || m_rules.checkBlackJack(m_players[0].getHand()))
                         {
                             if (m_rules.checkBustHand(m_players[0]))
                             {
@@ -214,13 +214,17 @@ namespace blackjack
                                 Console.WriteLine("Your first hand has BUSTED!");
                                 Console.ResetColor();
                             }
+                            if (m_rules.checkBlackJack(m_players[0].getHand()))
+                            {
+                                m_players[0].standHand();
+                            }
                             m_handInPlay = 1;
                         }
                     }
 
                     if (m_handInPlay == 1)
                     {
-                        if (m_rules.checkBustSplitHand(m_players[0]) || m_players[0].didStandSplitHand())
+                        if (m_rules.checkBustSplitHand(m_players[0]) || m_players[0].didStandSplitHand() || m_rules.checkBlackJack(m_players[0].getSplitHand()))
                         {
                             if (m_rules.checkBustSplitHand(m_players[0]))
                             {
@@ -229,6 +233,11 @@ namespace blackjack
                                 Console.WriteLine("Your split hand has BUSTED!");
                                 Console.ResetColor();
                             }
+                            if (m_rules.checkBlackJack(m_players[0].getSplitHand()))
+                            {
+                                m_players[0].standSplitHand();
+                            }
+
                             m_gameState = GameState.RUN;
                         }
                     }
@@ -237,6 +246,10 @@ namespace blackjack
                 {
                     if (m_rules.checkBustHand(m_players[0]) || m_players[0].didStandHand())
                     {
+                        if (m_rules.checkBustHand(m_players[0]))
+                        {
+                            m_players[0].bustHand();
+                        }
                         m_gameState = GameState.RUN;
                     }
                 }
@@ -268,7 +281,21 @@ namespace blackjack
 
         private void dealerTurn()
         {
-            m_gameState = GameState.DEALER_TURN;
+            if (!m_players[0].didSplit())
+            {
+                if (!m_players[0].isHandBusted())
+                {
+                    m_gameState = GameState.DEALER_TURN;
+                }
+            }
+            else if (m_players[0].didSplit())
+            {
+                if (!m_players[0].isHandBusted() && !m_players[0].isSplitHandBusted())
+                {
+                    m_gameState = GameState.DEALER_TURN;
+                }
+            }
+
             while (m_gameState == GameState.DEALER_TURN)
             {
                 // Play out the dealers hand by the following rules
@@ -319,12 +346,29 @@ namespace blackjack
 
         private string determineOptions()
         {
-            string output = "( W ) Stand";
-            if (m_rules.checkHit(m_players[0]))
+            string output = "";
+            int currentHand = m_players[0].getCurrentHand();
+
+            if (currentHand == 0)
+            {
+                if (!m_rules.checkBlackJack(m_players[0].getHand()) && (!m_players[0].didDoubleDownHand()))
+                {
+                    output = "( W ) Stand";
+                }
+            }
+            else if (currentHand == 1)
+            {
+                if (!m_rules.checkBlackJack(m_players[0].getSplitHand()) && (!m_players[0].didDoubleDownSplitHand()))
+                {
+                    output = "( W ) Stand";
+                }
+            }
+
+            if (m_rules.checkHit(m_players[0]) && !m_rules.checkBlackJack(m_players[0].getHand()))
             {
                 output += " | ( A ) Hit";
             }
-            if (m_rules.checkDoubleDown(m_players[0]))
+            if (m_rules.checkDoubleDown(m_players[0]) && !m_rules.checkBlackJack(m_players[0].getHand()))
             {
                 output += " | ( S ) Double Down";
             }
@@ -403,12 +447,14 @@ namespace blackjack
                         m_players[0].doubleDownHand();
                         m_players[0].getHand().addCard(m_deck.drawCard());
                         m_players[0].getBank().doubleWager();
+                        m_players[0].standHand();
                     }
                     else if (currentHand == 1)
                     {
                         m_players[0].doubleDownSplitHand();
                         m_players[0].getSplitHand().addCard(m_deck.drawCard());
                         m_players[0].getBank().doubleWager();
+                        m_players[0].standSplitHand();
                     }
                     break;
                 case "d":
@@ -421,153 +467,6 @@ namespace blackjack
                     break;
             }
             Console.Clear();
-        }
-
-        private void determineWinner(int handInPlay)
-        {
-            bool handOver = m_rules.checkHandOver(m_players[0], m_dealer);
-
-            if (handInPlay == 0)
-            {
-                // If the player didn't split their hand
-                if (!m_players[0].didSplit())
-                {
-                    // if the player stood on their hand
-                    if (m_players[0].didStandHand())
-                    {
-                        // if the dealer stood on their hand
-                        if (m_dealer.didStandHand())
-                        {
-                            // if the player beat the dealer
-                            if (m_players[0].getHand().getHandValue() > m_dealer.getHand().getHandValue()
-                                && m_players[0].getHand().getHandValue() <= 21
-                                && m_dealer.getHand().getHandValue() < 21)
-                            {
-                                Console.WriteLine("Your hand has beaten the dealer, congratulations payout 2 : 1.");
-                                m_players[0].getBank().collectWinnings(m_players[0].getBank().getWager() * 2);
-                            }
-                            // if the dealer beat the player
-                            else if (m_players[0].getHand().getHandValue() < m_dealer.getHand().getHandValue()
-                                && m_players[0].getHand().getHandValue() < 21
-                                && m_dealer.getHand().getHandValue() <= 21)
-                            {
-                                Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
-                            }
-                            // if the player and the dealer tied on thier hands
-                            else if (m_players[0].getHand().getHandValue() == m_dealer.getHand().getHandValue())
-                            {
-                                Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
-                                m_players[0].getBank().setWager(0);
-                                m_players[0].getBank().returnWager(m_players[0].getBank().getWager());
-                            }
-                        }
-                        // if the dealer busted on their hand
-                        else if (m_dealer.isHandBusted())
-                        {
-                            Console.WriteLine("Your hand has beaten the dealer, congratulations payout 2 : 1.");
-                            m_players[0].getBank().collectWinnings(m_players[0].getBank().getWager() * 2);
-                        }
-                    }
-                    // if the player busted on their hand
-                    else if ((m_players[0].isHandBusted() && m_dealer.isHandBusted())
-                        || (m_players[0].isHandBusted() && !m_dealer.isHandBusted()))
-                    {
-                        Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
-                    }
-                }
-            }
-            else if (handInPlay == 1)
-            {
-                // if the player did split their hand
-                if (m_players[0].didSplit())
-                {
-                    // if the player stood on their hand
-                    if (m_players[0].didStandHand())
-                    {
-                        // if the dealer stood on their hand
-                        if (m_dealer.didStandHand())
-                        {
-                            // if the player beat the dealer
-                            if (m_players[0].getHand().getHandValue() > m_dealer.getHand().getHandValue()
-                                && m_players[0].getHand().getHandValue() <= 21
-                                && m_dealer.getHand().getHandValue() < 21)
-                            {
-                                Console.WriteLine("Your hand has beaten the dealer, congratulations payout 2 : 1.");
-                                m_players[0].getBank().collectWinnings(m_players[0].getBank().getWager());
-                            }
-                            // if the dealer beat the player
-                            else if (m_players[0].getHand().getHandValue() < m_dealer.getHand().getHandValue()
-                                && m_players[0].getHand().getHandValue() < 21
-                                && m_dealer.getHand().getHandValue() <= 21)
-                            {
-                                Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
-                            }
-                            // if the player and the dealer tied on thier hands
-                            else if (m_players[0].getHand().getHandValue() == m_dealer.getHand().getHandValue())
-                            {
-                                Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
-                                m_players[0].getBank().setWager(0);
-                                m_players[0].getBank().returnWager(m_players[0].getBank().getWager() / 2);
-                            }
-                        }
-                        // if the dealer busted on their hand
-                        else if (m_dealer.isHandBusted())
-                        {
-                            Console.WriteLine("Your hand has beaten the dealer, congratulations payout 2 : 1.");
-                            m_players[0].getBank().collectWinnings(m_players[0].getBank().getWager());
-                        }
-                    }
-                    // if the player busted on their hand
-                    else if ((m_players[0].isHandBusted() && m_dealer.isHandBusted())
-                        || (m_players[0].isHandBusted() && !m_dealer.isHandBusted()))
-                    {
-                        Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
-                    }
-
-                    // if the player stood on their split hand
-                    if (m_players[0].didStandSplitHand())
-                    {
-                        // if the dealer stood on their hand
-                        if (m_dealer.didStandHand())
-                        {
-                            // if the players split hand beat the dealer
-                            if (m_players[0].getSplitHand().getHandValue() > m_dealer.getHand().getHandValue()
-                                && m_players[0].getSplitHand().getHandValue() <= 21
-                                && m_dealer.getHand().getHandValue() < 21)
-                            {
-                                Console.WriteLine("Your split hand has beaten the dealer, congratulations payout 2 : 1");
-                                m_players[0].getBank().collectWinnings(m_players[0].getBank().getWager());
-                            }
-                            // if the dealer beat the player
-                            else if (m_players[0].getSplitHand().getHandValue() < m_dealer.getHand().getHandValue()
-                                && m_players[0].getSplitHand().getHandValue() < 21
-                                && m_dealer.getHand().getHandValue() <= 21)
-                            {
-                                Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
-                            }
-                            // if the player and the dealer tied on their hands
-                            else if (m_players[0].getSplitHand().getHandValue() == m_dealer.getHand().getHandValue())
-                            {
-                                Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
-                                m_players[0].getBank().setWager(0);
-                                m_players[0].getBank().returnWager(m_players[0].getBank().getWager() / 2);
-                            }
-                        }
-                        // if the dealer busted their hand
-                        else if (m_dealer.isHandBusted())
-                        {
-                            Console.WriteLine("Your split hand has beaten the dealer, congratulations payout 2 : 1");
-                            m_players[0].getBank().collectWinnings(m_players[0].getBank().getWager());
-                        }
-                    }
-                    // if the player busted on their hand
-                    else if ((m_players[0].isSplitHandBusted() && m_dealer.isHandBusted())
-                        || (m_players[0].isSplitHandBusted() && !m_dealer.isHandBusted()))
-                    {
-                        Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
-                    }
-                }
-            }
         }
 
         private void displayResults()
@@ -614,7 +513,6 @@ namespace blackjack
             {
                 m_deck.Shuffle();
             }
-            
         }
 
         private void update()
@@ -631,11 +529,11 @@ namespace blackjack
 
                 if (m_players[0].didSplit())
                 {
-                    determineWinner(1);
+                    m_rules.determineWinner(1, m_players[0], m_dealer);
                 }
                 else if (!m_players[0].didSplit())
                 {
-                    determineWinner(0);
+                    m_rules.determineWinner(0, m_players[0], m_dealer);
                 }
 
                 displayResults();
