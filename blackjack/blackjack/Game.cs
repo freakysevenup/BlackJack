@@ -120,10 +120,8 @@ namespace blackjack
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.WriteLine("***** Dealer Hand *****");
                     Console.ResetColor();
-                    for (int i = 0; i < m_dealer.getHand().getCards().Length; i++)
-                    {
-                        Console.Write(m_dealer.getHand().getCards()[i].ToString() + " ");
-                    }
+                    Console.Write(m_dealer.getHand().getCards()[0].ToString() + " ");
+                    Console.Write("*");
                     Console.WriteLine("\n***********************");
 
                     Console.WriteLine(determineOptions());
@@ -155,10 +153,8 @@ namespace blackjack
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.WriteLine("***** Dealer Hand *****");
                     Console.ResetColor();
-                    for (int i = 0; i < m_dealer.getHand().getCards().Length; i++)
-                    {
-                        Console.Write(m_dealer.getHand().getCards()[i].ToString() + " ");
-                    }
+                    Console.Write(m_dealer.getHand().getCards()[0].ToString() + " ");
+                    Console.Write("*");
                     Console.WriteLine("\n***********************");
 
                     Console.WriteLine(determineOptions());
@@ -190,10 +186,8 @@ namespace blackjack
                     Console.BackgroundColor = ConsoleColor.Red;
                     Console.WriteLine("***** Dealer Hand *****");
                     Console.ResetColor();
-                    for (int i = 0; i < m_dealer.getHand().getCards().Length; i++)
-                    {
-                        Console.Write(m_dealer.getHand().getCards()[i].ToString() + " ");
-                    }
+                    Console.Write(m_dealer.getHand().getCards()[0].ToString() + " ");
+                    Console.Write("*");
                     Console.WriteLine("\n***********************");
 
                     Console.WriteLine(determineOptions());
@@ -224,7 +218,9 @@ namespace blackjack
 
                     if (m_handInPlay == 1)
                     {
-                        if (m_rules.checkBustSplitHand(m_players[0]) || m_players[0].didStandSplitHand() || m_rules.checkBlackJack(m_players[0].getSplitHand()))
+                        if (m_rules.checkBustSplitHand(m_players[0]) 
+                            || m_players[0].didStandSplitHand() 
+                            || m_rules.checkBlackJack(m_players[0].getSplitHand()))
                         {
                             if (m_rules.checkBustSplitHand(m_players[0]))
                             {
@@ -244,11 +240,17 @@ namespace blackjack
                 }
                 else if (!m_players[0].didSplit())
                 {
-                    if (m_rules.checkBustHand(m_players[0]) || m_players[0].didStandHand())
+                    if (m_rules.checkBustHand(m_players[0]) 
+                        || m_players[0].didStandHand() 
+                        || m_rules.checkBlackJack(m_players[0].getHand()))
                     {
                         if (m_rules.checkBustHand(m_players[0]))
                         {
                             m_players[0].bustHand();
+                        }
+                        if (m_rules.checkBlackJack(m_players[0].getHand()))
+                        {
+                            m_players[0].standHand();
                         }
                         m_gameState = GameState.RUN;
                     }
@@ -317,11 +319,6 @@ namespace blackjack
                     m_dealer.getHand().addCard(m_deck.drawCard());
                 }
 
-                if (m_dealer.getHand().getHandValue() > 21)
-                {
-                    m_dealer.bustHand();
-                }
-
                 Console.WriteLine("***** Dealer Hand *****");
                 for (int i = 0; i < m_dealer.getHand().getCards().Length; i++)
                 {
@@ -355,12 +352,22 @@ namespace blackjack
                 {
                     output = "( W ) Stand";
                 }
+                if (m_rules.checkBlackJack(m_players[0].getHand()))
+                {
+                    output = "Press enter to continue.";
+                    Console.ReadLine();
+                }
             }
             else if (currentHand == 1)
             {
                 if (!m_rules.checkBlackJack(m_players[0].getSplitHand()) && (!m_players[0].didDoubleDownSplitHand()))
                 {
                     output = "( W ) Stand";
+                }
+                if (m_rules.checkBlackJack(m_players[0].getSplitHand()))
+                {
+                    output = "Press enter to continue.";
+                    Console.ReadLine();
                 }
             }
 
@@ -464,6 +471,8 @@ namespace blackjack
                 case "q":
                     m_gameState = GameState.EXIT;
                     update();
+                    break;
+                case "":
                     break;
             }
             Console.Clear();

@@ -102,13 +102,13 @@ namespace blackjack
             switch(card.getCardValue())
             {
                 case CardValue.A:
-                    if (m_handValue <= 10)
+                    if (m_handValue + 11 > 21)
                     {
-                        returnValue = 11;
+                        returnValue = 1;
                     }
                     else
                     {
-                        returnValue = 1;
+                        returnValue = 11;
                     }
                     break;
                 case CardValue.TWO:

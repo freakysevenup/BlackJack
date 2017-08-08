@@ -170,11 +170,11 @@ namespace blackjack
             return returnValue;
         }
 
-        public bool checkBustHand(Agent agent)
+        public bool checkBustHand(Dealer dealer)
         {
             bool returnValue = false;
 
-            if (agent.getHand().getHandValue() > 21)
+            if (dealer.getHand().getHandValue() > 21)
             {
                 returnValue = true;
             }
@@ -182,7 +182,7 @@ namespace blackjack
             return returnValue;
         }
 
-        public bool checkHandOver(Player player, Dealer dealer)
+        private bool checkHandOver(Player player, Dealer dealer)
         {
             bool returnValue = false;
 
@@ -253,11 +253,13 @@ namespace blackjack
         {
             bool handOver = checkHandOver(player, dealer);
 
+            // Playing the first hand 
             if (handInPlay == 0)
             {
                 // If the player didn't split their hand
                 if (!player.didSplit())
                 {
+                    // if the player got a blackjack
                     if (checkBlackJack(player.getHand()))
                     {
                         Console.WriteLine("You got a Black Jack!! Payout 3 : 1");
@@ -284,23 +286,25 @@ namespace blackjack
                             {
                                 Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
                             }
-                            // if the player and the dealer tied on their hands
+                            // if the dealer got a black jack but the player got 21 also
                             else if (player.getHand().getHandValue() == dealer.getHand().getHandValue()
                                 && player.getHand().getHandValue() == 21)
                             {
+                                // if the player got 21 using more than 2 cards
                                 if (dealer.getHand().getCards().Length == 2 && player.getHand().getCards().Length > 2)
                                 {
                                     Console.WriteLine("Dealer has BlackJack! you lose your bet.");
                                 }
-                                else
-                                {
-                                    Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
-                                    player.getBank().returnWager(player.getBank().getWager());
-                                }
+                            }
+                            // if the player and the dealer have equal hands
+                            else if (player.getHand().getHandValue() == dealer.getHand().getHandValue())
+                            {
+                                Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
+                                player.getBank().returnWager(player.getBank().getWager());
                             }
                         }
                         // if the dealer busted on their hand
-                        else if (dealer.isHandBusted())
+                        if (dealer.isHandBusted())
                         {
                             Console.WriteLine("Your hand has beaten the dealer, congratulations payout 2 : 1.");
                             player.getBank().collectWinnings(player.getBank().getWager() * 2);
@@ -311,13 +315,16 @@ namespace blackjack
                     {
                         Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
                     }
+
                 }
             }
+            // playing the first hand in a split
             else if (handInPlay == 1)
             {
                 // if the player did split their hand
                 if (player.didSplit())
                 {
+                    // if the player got a black jack on their first hand
                     if (checkBlackJack(player.getHand()))
                     {
                         Console.WriteLine("You got a Black Jack on your first hand!! Payout 3 : 1");
@@ -344,23 +351,25 @@ namespace blackjack
                             {
                                 Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
                             }
-                            // if the player and the dealer tied on thier hands
+                            // if the player and the dealer tied on their hands
                             else if (player.getHand().getHandValue() == dealer.getHand().getHandValue()
                                 && player.getHand().getHandValue() == 21)
                             {
+                                // if the player got 21 using more than 2 cards
                                 if (dealer.getHand().getCards().Length == 2 && player.getHand().getCards().Length > 2)
                                 {
                                     Console.WriteLine("Dealer has BlackJack! you lose your bet.");
                                 }
-                                else
-                                {
-                                    Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
-                                    player.getBank().returnWager(player.getBank().getWager() / 2);
-                                }
+                            }
+                            // if the player and the dealer tied 
+                            else if (player.getHand().getHandValue() == dealer.getHand().getHandValue())
+                            {
+                                Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
+                                player.getBank().returnWager(player.getBank().getWager());
                             }
                         }
                         // if the dealer busted on their hand
-                        else if (dealer.isHandBusted())
+                        if (dealer.isHandBusted())
                         {
                             Console.WriteLine("Your hand has beaten the dealer, congratulations payout 2 : 1.");
                             player.getBank().collectWinnings(player.getBank().getWager());
@@ -372,6 +381,7 @@ namespace blackjack
                         Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
                     }
 
+                    // if the player got a blackjack on their split hand
                     if (checkBlackJack(player.getSplitHand()))
                     {
                         Console.WriteLine("You got a Black Jack on your split hand!! Payout 3 : 1");
@@ -401,20 +411,22 @@ namespace blackjack
                             // if the player and the dealer tied on their hands
                             else if (player.getSplitHand().getHandValue() == dealer.getHand().getHandValue())
                             {
+                                // if the player got 21 using more than 2 cards
                                 if (dealer.getHand().getCards().Length == 2 && player.getSplitHand().getCards().Length > 2
                                 && player.getSplitHand().getHandValue() == 21)
                                 {
                                     Console.WriteLine("Dealer has BlackJack! you lose your bet.");
                                 }
-                                else
-                                {
-                                    Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
-                                    player.getBank().returnWager(player.getBank().getWager() / 2);
-                                }
+                            }
+                            // if the player and the dealer tied
+                            else if (player.getSplitHand().getHandValue() == dealer.getHand().getHandValue())
+                            {
+                                Console.WriteLine("Your hand has tied the dealer, you keep your bet.");
+                                player.getBank().returnWager(player.getBank().getWager());
                             }
                         }
                         // if the dealer busted their hand
-                        else if (dealer.isHandBusted())
+                        if (dealer.isHandBusted())
                         {
                             Console.WriteLine("Your split hand has beaten the dealer, congratulations payout 2 : 1");
                             player.getBank().collectWinnings(player.getBank().getWager());
