@@ -6,3 +6,11 @@ J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\bla
 J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.exe
 J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.pdb
 J:\Visual_Studio_Projects\__Post_Grad_Projects\BlackJack\BlackJack\blackjack\blackjack\obj\Release\blackjack.csprojResolveAssemblyReference.cache
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\bin\Release\blackjack.exe.config
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\obj\Release\blackjack.exe
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\obj\Release\blackjack.pdb
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\bin\Release\blackjack.exe
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\bin\Release\blackjack.pdb
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\bin\Release\PlayingCards.dll
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\bin\Release\PlayingCards.pdb
+C:\Users\15360\Desktop\Game\BlackJack\blackjack\blackjack\obj\Release\blackjack.csprojResolveAssemblyReference.cache

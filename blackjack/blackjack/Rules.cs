@@ -284,8 +284,9 @@ namespace blackjack
                             {
                                 Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
                             }
-                            // if the player and the dealer tied on thier hands
-                            else if (player.getHand().getHandValue() == dealer.getHand().getHandValue())
+                            // if the player and the dealer tied on their hands
+                            else if (player.getHand().getHandValue() == dealer.getHand().getHandValue()
+                                && player.getHand().getHandValue() == 21)
                             {
                                 if (dealer.getHand().getCards().Length == 2 && player.getHand().getCards().Length > 2)
                                 {
@@ -344,7 +345,8 @@ namespace blackjack
                                 Console.WriteLine("Your hand has lost to the dealer, you lost your bet.");
                             }
                             // if the player and the dealer tied on thier hands
-                            else if (player.getHand().getHandValue() == dealer.getHand().getHandValue())
+                            else if (player.getHand().getHandValue() == dealer.getHand().getHandValue()
+                                && player.getHand().getHandValue() == 21)
                             {
                                 if (dealer.getHand().getCards().Length == 2 && player.getHand().getCards().Length > 2)
                                 {
@@ -399,7 +401,8 @@ namespace blackjack
                             // if the player and the dealer tied on their hands
                             else if (player.getSplitHand().getHandValue() == dealer.getHand().getHandValue())
                             {
-                                if (dealer.getHand().getCards().Length == 2 && player.getSplitHand().getCards().Length > 2)
+                                if (dealer.getHand().getCards().Length == 2 && player.getSplitHand().getCards().Length > 2
+                                && player.getSplitHand().getHandValue() == 21)
                                 {
                                     Console.WriteLine("Dealer has BlackJack! you lose your bet.");
                                 }
